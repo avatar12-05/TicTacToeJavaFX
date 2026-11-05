@@ -1,10 +1,15 @@
 package com.example;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 /**
  * 
  * Defines the shared marker and move contract for a Tic-Tac-Toe player.
  */ 
 public abstract class Player {
+    private static final AtomicInteger HUMAN_NAME_SEQUENCE = new AtomicInteger();
+    private static final AtomicInteger CPU_NAME_SEQUENCE = new AtomicInteger();
+
     protected final char marker;
     private String name;
 
@@ -19,6 +24,19 @@ public abstract class Player {
             throw new IllegalArgumentException("A player marker must be X or O");
         }
         this.marker = marker;
+    }
+
+    static String nextHumanName() {
+        return "Player #" + HUMAN_NAME_SEQUENCE.incrementAndGet();
+    }
+
+    static String nextCpuName() {
+        return "CPU #" + CPU_NAME_SEQUENCE.incrementAndGet();
+    }
+
+    static void resetNameSequences() {
+        HUMAN_NAME_SEQUENCE.set(0);
+        CPU_NAME_SEQUENCE.set(0);
     }
 
     /**
