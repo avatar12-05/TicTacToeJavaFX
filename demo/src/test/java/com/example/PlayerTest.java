@@ -23,7 +23,7 @@ class PlayerTest {
         assertFalse(player.makeMove(board, -1, 0));
     }
 
-    /** Verifies the human player retries malformed and occupied coordinates. */
+    /** Verifies x is the column and y is the row after invalid input is retried. */
     @Test
     void humanRetriesMalformedAndOccupiedPositions() {
         Board board = new Board();
@@ -37,7 +37,9 @@ class PlayerTest {
         } finally {
             System.setOut(originalOut);
         }
-        assertEquals('X', board.getCell(1, 2));
+        assertEquals('X', board.getCell(2, 1));
+        assertEquals(' ', board.getCell(1, 2));
+        assertTrue(output.toString(StandardCharsets.UTF_8).contains("enter x and y"));
         assertTrue(output.toString(StandardCharsets.UTF_8).contains("invalid or occupied"));
     }
 
