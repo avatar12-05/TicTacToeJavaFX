@@ -101,7 +101,11 @@ public class Main extends Application {
         congratulationsText.getStyleClass().add("congratulations-title");
         Label winnerText = new Label();
         winnerText.getStyleClass().add("congratulations-winner");
-        VBox congratulations = new VBox(16, congratulationsText, congratulationsImage, winnerText);
+        Button backToBoard = new Button("Back to board");
+        backToBoard.getStyleClass().add("restart-button");
+        backToBoard.setOnAction(event -> resetGame());
+        VBox congratulations = new VBox(
+                16, congratulationsText, congratulationsImage, winnerText, backToBoard);
         congratulations.getStyleClass().add("congratulations");
         congratulations.setAlignment(Pos.CENTER);
         congratulations.setVisible(false);
@@ -155,9 +159,11 @@ public class Main extends Application {
             }
             updateScore();
             disableEmptyCells();
-            winnerText.setText(player.getName() + " wins!");
-            congratulations.setManaged(true);
-            congratulations.setVisible(true);
+            if (player == human) {
+                winnerText.setText(player.getName() + " wins!");
+                congratulations.setManaged(true);
+                congratulations.setVisible(true);
+            }
             return true;
         }
         if (board.isFull()) {
