@@ -38,6 +38,7 @@ public class CpuPlayer extends Player {
     public CpuPlayer(char marker, Random random) {
         super(marker);
         this.random = Objects.requireNonNull(random, "random");
+        setName(nextCpuName());
     }
     
 

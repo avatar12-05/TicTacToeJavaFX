@@ -21,6 +21,7 @@ public class HumanPlayer extends Player {
     public HumanPlayer(char marker, Scanner scanner) {
         super(marker);
         this.scanner = Objects.requireNonNull(scanner, "scanner");
+        setName(nextHumanName());
     }
 
     /** Prompts for coordinates until this player's marker is placed successfully. */
