@@ -59,6 +59,5 @@ public class CpuPlayer extends Player {
 
         int[] move = availableMoves.get(random.nextInt(availableMoves.size()));
         board.place(move[0], move[1], marker);
-        System.out.printf("CPU (%c) chose row %d, column %d.%n", marker, move[0] + 1, move[1] + 1);
     }
 }
