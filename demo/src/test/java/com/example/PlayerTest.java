@@ -20,21 +20,28 @@ class PlayerTest {
         assertEquals("Player #1", human.getName());
         assertEquals("CPU #1", cpu.getName());
 
-        human.setName("Alice");
-        cpu.setName("Computer");
-        assertEquals("Alice", human.getName());
-        assertEquals("Computer", cpu.getName());
+        human.setName(" Alice ");
+        cpu.setName(" Computer ");
+        assertEquals(" Alice ", human.getName());
+        assertEquals(" Computer ", cpu.getName());
     }
 
     /** Verifies null, empty, and whitespace-only player names are rejected. */
     @Test
     void rejectsNullOrBlankPlayerNames() {
-        Player player = new HumanPlayer('X', new Scanner(""));
+        Player[] players = {
+            new HumanPlayer('X', new Scanner("")),
+            new CpuPlayer('O', new Random(7))
+        };
+        String[] defaultNames = {"Player #1", "CPU #1"};
 
-        assertThrows(IllegalArgumentException.class, () -> player.setName(null));
-        assertThrows(IllegalArgumentException.class, () -> player.setName(""));
-        assertThrows(IllegalArgumentException.class, () -> player.setName(" \t\n "));
-        assertEquals("Player #1", player.getName());
+        for (int index = 0; index < players.length; index++) {
+            Player player = players[index];
+            assertThrows(IllegalArgumentException.class, () -> player.setName(null));
+            assertThrows(IllegalArgumentException.class, () -> player.setName(""));
+            assertThrows(IllegalArgumentException.class, () -> player.setName(" \t\n "));
+            assertEquals(defaultNames[index], player.getName());
+        }
     }
 
     /** Verifies a human can place a marker at valid coordinates. */
