@@ -26,6 +26,12 @@
     -fx-padding: 2px 0 8px 0;
 }
 
+.score {
+    -fx-text-fill: #9eafc2;
+    -fx-font-size: 14px;
+    -fx-font-weight: 600;
+}
+
 .board {
     -fx-padding: 22px;
     -fx-background-color: rgba(255, 255, 255, 0.055);
@@ -82,4 +88,25 @@
 
 .restart-button:hover {
     -fx-background-color: rgba(255, 255, 255, 0.09);
+}
+
+.congratulations {
+    -fx-padding: 28px;
+    -fx-background-color: #182840;
+    -fx-background-radius: 24px;
+    -fx-border-color: rgba(255, 255, 255, 0.18);
+    -fx-border-radius: 24px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.45), 24, 0.2, 0, 8);
+}
+
+.congratulations-title {
+    -fx-text-fill: #83d6c5;
+    -fx-font-size: 30px;
+    -fx-font-weight: 800;
+}
+
+.congratulations-winner {
+    -fx-text-fill: #f4f7fb;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
 }
