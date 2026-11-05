@@ -27,7 +27,7 @@ public class HumanPlayer extends Player {
     @Override
     public void makeMove(Board board) {
         while (true) {
-            System.out.printf("Player %c, enter row and column (1-3), separated by a space: ", marker);
+            System.out.printf("Player %c, enter x and y (1-3), separated by a space: ", marker);
             if (!scanner.hasNextLine()) {
                 throw new IllegalStateException("No more input available for the human player's move");
             }
@@ -39,9 +39,9 @@ public class HumanPlayer extends Player {
             }
 
             try {
-                int row = Integer.parseInt(coordinates[0]) - 1;
-                int column = Integer.parseInt(coordinates[1]) - 1;
-                if (makeMove(board, row, column)) {
+                int x = Integer.parseInt(coordinates[0]) - 1;
+                int y = Integer.parseInt(coordinates[1]) - 1;
+                if (makeMove(board, y, x)) {
                     return;
                 }
             } catch (NumberFormatException ignored) {
