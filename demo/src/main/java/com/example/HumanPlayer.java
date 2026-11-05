@@ -20,6 +20,7 @@ public class HumanPlayer extends Player {
      */
     public HumanPlayer(char marker, Scanner scanner) {
         super(marker);
+        setName("Player #1");
         this.scanner = Objects.requireNonNull(scanner, "scanner");
     }
 
