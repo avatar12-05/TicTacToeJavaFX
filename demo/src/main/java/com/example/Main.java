@@ -7,6 +7,8 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -20,6 +22,10 @@ public class Main extends Application {
     private final CpuPlayer cpu = new CpuPlayer('O');
     private final Button[][] cells = new Button[3][3];
     private final Label status = new Label();
+    private final Label score = new Label();
+    private int humanWins;
+    private int cpuWins;
+    private int draws;
 
     /** Launches the JavaFX application. */
     public static void main(String[] args) {
@@ -35,8 +41,9 @@ public class Main extends Application {
         title.getStyleClass().add("title");
 
         status.getStyleClass().add("status");
+        score.getStyleClass().add("score");
 
-        VBox header = new VBox(8, eyebrow, title, status);
+        VBox header = new VBox(8, eyebrow, title, status, score);
         header.setAlignment(Pos.CENTER);
 
         GridPane grid = new GridPane();
@@ -81,6 +88,26 @@ public class Main extends Application {
         root.getStyleClass().add("root");
         root.setPadding(new Insets(36));
 
+        var imageResource = getClass().getResource("/congratulations.png");
+        if (imageResource == null) {
+            throw new IllegalStateException("Could not find congratulations.png on the classpath");
+        }
+        ImageView congratulationsImage = new ImageView(new Image(imageResource.toExternalForm()));
+        congratulationsImage.setFitWidth(150);
+        congratulationsImage.setFitHeight(150);
+        congratulationsImage.setPreserveRatio(true);
+
+        Label congratulationsText = new Label("Congratulations!!");
+        congratulationsText.getStyleClass().add("congratulations-title");
+        Label winnerText = new Label();
+        winnerText.getStyleClass().add("congratulations-winner");
+        VBox congratulations = new VBox(16, congratulationsText, congratulationsImage, winnerText);
+        congratulations.getStyleClass().add("congratulations");
+        congratulations.setAlignment(Pos.CENTER);
+        congratulations.setVisible(false);
+        congratulations.setManaged(false);
+        root.getChildren().add(congratulations);
+
         Scene scene = new Scene(root, 500, 650);
         var stylesheet = getClass().getResource("/app.css");
         if (stylesheet == null) {
@@ -92,9 +119,14 @@ public class Main extends Application {
         stage.setMinWidth(460);
         stage.setMinHeight(620);
         stage.setScene(scene);
+        this.congratulations = congratulations;
+        this.winnerText = winnerText;
         resetGame();
         stage.show();
     }
+
+    private VBox congratulations;
+    private Label winnerText;
 
     private void playHumanMove(int row, int column) {
         if (!human.makeMove(board, row, column)) {
@@ -116,11 +148,22 @@ public class Main extends Application {
     private boolean finishIfGameOver(Player player) {
         if (board.checkWin()) {
             status.setText(player.getName() + " wins!");
+            if (player == human) {
+                humanWins++;
+            } else {
+                cpuWins++;
+            }
+            updateScore();
             disableEmptyCells();
+            winnerText.setText(player.getName() + " wins!");
+            congratulations.setManaged(true);
+            congratulations.setVisible(true);
             return true;
         }
         if (board.isFull()) {
             status.setText("It's a draw!");
+            draws++;
+            updateScore();
             disableEmptyCells();
             return true;
         }
@@ -166,5 +209,15 @@ public class Main extends Application {
             }
         }
         status.setText(human.getName() + "'s turn (X)");
+        updateScore();
+        if (congratulations != null) {
+            congratulations.setVisible(false);
+            congratulations.setManaged(false);
+            winnerText.setText("");
+        }
+    }
+
+    private void updateScore() {
+        score.setText("You: " + humanWins + "   CPU: " + cpuWins + "   Draws: " + draws);
     }
 }
